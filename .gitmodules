@@ -1,0 +1,9 @@
+[submodule "libs/ST77XX"]
+	path = libs/ST77XX
+	url = git@github.com:kevinfrei/Adafruit-ST7735-Library.git
+[submodule "libs/GFX"]
+	path = libs/GFX
+	url = https://github.com/adafruit/Adafruit-GFX-Library.git
+[submodule "libs/BusIO"]
+	path = libs/BusIO
+	url = https://github.com/adafruit/Adafruit_BusIO.git
