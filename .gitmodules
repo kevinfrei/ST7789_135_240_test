@@ -7,3 +7,6 @@
 [submodule "libs/BusIO"]
 	path = libs/BusIO
 	url = https://github.com/adafruit/Adafruit_BusIO.git
+[submodule "libs/GenMakefile"]
+	path = libs/GenMakefile
+	url = https://github.com/kevinfrei/Arduino2Make.git
