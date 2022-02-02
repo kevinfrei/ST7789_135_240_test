@@ -15,7 +15,7 @@ else
   $(error Linux support not tested yet)
 endif
 
-IN_SPEED=600
+IN_SPEED=150
 IN_USB=serialhid
 IN_OPT=osstd
 IN_KEYS=en-us

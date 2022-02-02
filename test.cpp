@@ -38,24 +38,26 @@ void printOrientation(uint8_t rot) {
   tft.print(str);
 }
 
-void clearScreenTest(uint8_t rot) {
-  tft.fillScreen(ST77XX_BLUE);
-  tft.setRotation(rot);
+// Clear the screen at all rotations, in the hopes that *one* of them works properly
+void clearScreen() {
+  for (uint8_t i = 0; i < 4; i++) {
+    tft.setRotation(i);
+    tft.fillScreen(ST77XX_BLACK);
+    delay(16);
+  }
+}
+
+void clearScreenTest() {
   tft.fillScreen(ST77XX_BLACK);
 }
 
-void rectFrameTest(uint8_t rot) {
-  tft.fillScreen(ST77XX_BLACK);
-  delay(10);
-  tft.setRotation(rot);
+void rectFrameTest() {
   tft.fillScreen(ST77XX_GREEN); // I'm worried that this won't expose
                                 // other issues...
   tft.fillRect(1, 1, tft.width() - 2, tft.height() - 2, ST77XX_BLACK);
 }
 
-void cornerDotsTest(uint8_t rot) {
-  tft.fillScreen(ST77XX_BLACK);
-  tft.setRotation(rot);
+void cornerDotsTest() {
   tft.drawPixel(0, 0, ST77XX_WHITE);
   tft.drawPixel(0, tft.height() - 1, ST77XX_WHITE);
   tft.drawPixel(tft.width() - 1, 0, ST77XX_WHITE);
@@ -78,7 +80,7 @@ void setup() {
 
 uint8_t cur_rot = 0;
 uint8_t which_test = 0;
-typedef void (*test)(uint8_t);
+typedef void (*test)();
 const test tests[] = {clearScreenTest, rectFrameTest, cornerDotsTest};
 const uint8_t num_tests = sizeof(tests) / sizeof(tests[0]);
 
@@ -87,10 +89,13 @@ void loop() {
   if (now >= next_task) {
     // You can speed it up or slow it down here
     // Teensy 4.0 can do this wicked fast :)
-    next_task = now + 1000; // Run a new task every 1 second
-    tft.setRotation(0);
+    next_task = now + 2000; // Run a new task every 2 seconds
+    // Clear out the screen
+    clearScreen();
+    // Set the orientation properly
+    tft.setRotation(cur_rot);
     // Run the test
-    tests[which_test](cur_rot);
+    tests[which_test]();
     // Print the current orientation in the middle
     printOrientation(cur_rot);
     // Go to a new orientation
