@@ -3,6 +3,9 @@
 
 #include "Fonts/FreeSans18pt7b.h"
 
+#define ADAFRUIT_2_0
+// #define ADAFRUIT_1_13
+
 // Switch these to whatever you need
 const uint8_t BACKLIGHT_PIN = 17;
 const uint8_t TFT_CS = 8;
@@ -69,7 +72,13 @@ uint32_t next_task = 0;
 void setup() {
   pinMode(BACKLIGHT_PIN, OUTPUT);
   set_backlight(true);
+  #if defined(ADAFRUIT_1_14)
   tft.init(135, 240);
+  #elif defined(ADAFRUIT_2_0)
+  tft.init(240, 320);
+  #else
+  #error Sorry, you need to pick a screen
+  #endif
   // This is the fastest speed that worked
   // (72mhz also worked, but seemed to be the same speed)
   tft.setSPISpeed(60000000);
